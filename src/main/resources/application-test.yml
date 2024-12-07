@@ -1,0 +1,54 @@
+server:
+  port: 8081
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: DEBUG
+            StatementCreatorUtils: TRACE
+      hibernate:
+        SQL: DEBUG
+      type:
+        descriptor:
+          sql:
+            BasicBinder: TRACE
+
+# Expose Http Trace
+management:
+  endpoints:
+    web:
+      exposure:
+        include: httptrace,health,flyway,env
+
+spring:
+  application:
+    name: robi-backend-security
+  datasource:
+    url: jdbc:mysql://localhost:3306/robi_common?useUnicode=yes&characterEncoding=UTF-8&useSSL=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: root
+    password: password
+    hikari:
+      leak-detection-threshold: 1000
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: create-drop
+    database: mysql
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  flyway:
+    enabled: false
+
+jwt:
+  secret_key: test_secret_key
